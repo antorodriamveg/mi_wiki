@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ fabricante[1] }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<header>
+    <h1>{{ fabricante[1] }} ({{ fabricante[2] }})</h1>
+</header>
+
+<div class="container">
+    <h2>Modelos</h2>
+
+    <ul class="lista">
+        {% for modelo in modelos %}
+            <li>
+                <a href="/modelo/{{ modelo[0] }}">
+                    {{ modelo[1] }} — {{ modelo[3] }}ª generación ({{ modelo[2] }})
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <a href="/modelo/nuevo/{{ fabricante[0] }}" class="boton">Agregar modelo</a>
+    <br><br>
+    <a href="/" class="boton-secundario">Volver</a>
+</div>
+
+</body>
+</html>

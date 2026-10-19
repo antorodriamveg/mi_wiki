@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ modelo[1] }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<header>
+    <h1>{{ modelo[1] }}</h1>
+</header>
+
+<div class="container">
+
+    {% if modelo[5] %}
+        <img src="{{ modelo[5] }}" class="imagen-modelo">
+    {% endif %}
+
+    <h2>Ficha técnica</h2>
+
+    <p><strong>Rol:</strong> {{ modelo[2] }}</p>
+    <p><strong>Generación:</strong> {{ modelo[3] }}ª</p>
+    <p><strong>Año:</strong> {{ modelo[4] }}</p>
+
+    <h3>Descripción</h3>
+    <p>{{ modelo[5] }}</p>
+
+    <h3>Fabricante</h3>
+    <p>{{ modelo[6] }} ({{ modelo[7] }})</p>
+
+    <a href="/fabricante/{{ modelo[0] }}" class="boton-secundario">Volver</a>
+</div>
+
+</body>
+</html>

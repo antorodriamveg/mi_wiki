@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Wiki de Ala Giratoria Militar</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<header>
+    <h1>Wiki de Ala Giratoria Militar</h1>
+</header>
+
+<div class="container">
+    <h2>Fabricantes</h2>
+
+    <ul class="lista">
+        {% for fab in fabricantes %}
+            <li>
+                <a href="/fabricante/{{ fab[0] }}">
+                    {{ fab[1] }} ({{ fab[2] }})
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <a href="/fabricante/nuevo" class="boton">Agregar fabricante</a>
+</div>
+
+</body>
+</html>

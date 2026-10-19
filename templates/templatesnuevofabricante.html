@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Nuevo Fabricante</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<header>
+    <h1>Agregar Fabricante</h1>
+</header>
+
+<div class="container">
+    <form method="POST">
+        <label>Nombre del fabricante:</label>
+        <input type="text" name="nombre" required>
+
+        <label>País:</label>
+        <input type="text" name="pais" required>
+
+        <button type="submit" class="boton">Guardar</button>
+    </form>
+
+    <a href="/" class="boton-secundario">Volver</a>
+</div>
+
+</body>
+</html>
