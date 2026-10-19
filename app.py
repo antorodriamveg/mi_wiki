@@ -140,7 +140,7 @@ def ver_modelo(modelo_id):
     cur = conn.cursor()
 
     cur.execute("""
-        SELECT m.id, m.nombre, m.rol, m.generacion, m.anio, m.información, m.imagen_url,
+        SELECT m.id, m.nombre, m.rol, m.generacion, m.anio, m.informacion, m.imagen_url,
                f.nombre, f.pais
         FROM modelos m
         JOIN fabricantes f ON m.fabricante_id = f.id
