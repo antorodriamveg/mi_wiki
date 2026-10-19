@@ -1,0 +1,9 @@
+<h1>Mini Wikipedia Local</h1>
+<a href="/nueva">Crear nueva página</a>
+<hr>
+
+<ul>
+{% for p in paginas %}
+  <li><a href="/pagina/{{ p[0] }}">{{ p[1] }}</a></li>
+{% endfor %}
+</ul>
