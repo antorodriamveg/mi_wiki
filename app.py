@@ -106,33 +106,23 @@ def ver_fabricante(fabricante_id):
 
     return render_template("fabricante.html", fabricante=fabricante, modelos=modelos)
 
-
 # NUEVO MODELO (AERONAVE) PARA UN FABRICANTE
-@app.route("/modelo/nuevo/<int:fabricante_id>", methods=["GET", "POST"])
+@app.route("/modelo/nuevo/<int:fabricante_id>")
 def nuevo_modelo(fabricante_id):
-    if request.method == "POST":
-        nombre = request.form["nombre"]
-        rol = request.form["rol"]
-        generacion = request.form["generacion"]
-        anio = request.form["anio"]
-        descripcion = request.form["descripcion"]
-        imagen_url = request.form["imagen_url"]
+    conn = get_connection()
+    cur = conn.cursor()
 
-        conn = get_connection()
-        cur = conn.cursor()
-        cur.execute("""
-            INSERT INTO modelos (fabricante_id, nombre, rol, generacion, anio, descripcion, imagen_url)
-            VALUES (%s, %s, %s, %s, %s, %s, %s)
-        """, (fabricante_id, nombre, rol, generacion, anio, descripcion, imagen_url))
-        conn.commit()
-        cur.close()
-        conn.close()
+    # Buscar el fabricante por ID
+    cur.execute("SELECT * FROM fabricantes WHERE id = %s", (fabricante_id,))
+    fabricante = cur.fetchone()
 
-        return redirect(url_for("ver_fabricante", fabricante_id=fabricante_id))
+    cur.close()
+    conn.close()
 
-    return render_template("nuevo_modelo.html", fabricante_id=fabricante_id)
+    # Enviar el fabricante al template
+    return render_template("nuevo_modelo.html", fabricante=fabricante)
 
-
+        
 # VER FICHA TÉCNICA DE UN MODELO
 @app.route("/modelo/<int:modelo_id>")
 def ver_modelo(modelo_id):
