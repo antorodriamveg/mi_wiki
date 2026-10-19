@@ -46,11 +46,10 @@ def crear_tablas():
     cur.close()
     conn.close()
 
-# Ejecutamos la creación de tablas al iniciar la app
 crear_tablas()
 
 
-# PÁGINA PRINCIPAL: lista de fabricantes
+# PÁGINA PRINCIPAL
 @app.route("/")
 def index():
     conn = get_connection()
@@ -71,10 +70,7 @@ def nuevo_fabricante():
 
         conn = get_connection()
         cur = conn.cursor()
-        cur.execute(
-            "INSERT INTO fabricantes (nombre, pais) VALUES (%s, %s)",
-            (nombre, pais)
-        )
+        cur.execute("INSERT INTO fabricantes (nombre, pais) VALUES (%s, %s)", (nombre, pais))
         conn.commit()
         cur.close()
         conn.close()
@@ -84,7 +80,7 @@ def nuevo_fabricante():
     return render_template("nuevo_fabricante.html")
 
 
-# VER FABRICANTE (lista de modelos de ese fabricante)
+# VER FABRICANTE
 @app.route("/fabricante/<int:fabricante_id>")
 def ver_fabricante(fabricante_id):
     conn = get_connection()
@@ -94,7 +90,7 @@ def ver_fabricante(fabricante_id):
     fabricante = cur.fetchone()
 
     cur.execute("""
-        SELECT id, nombre, anio, generacion, rol
+        SELECT id, nombre, anio, generacion, rol, imagen_url
         FROM modelos
         WHERE fabricante_id = %s
         ORDER BY nombre ASC
@@ -107,9 +103,16 @@ def ver_fabricante(fabricante_id):
     return render_template("fabricante.html", fabricante=fabricante, modelos=modelos)
 
 
-# NUEVO MODELO (AERONAVE) PARA UN FABRICANTE
+# NUEVO MODELO
 @app.route("/modelo/nuevo/<int:fabricante_id>", methods=["GET", "POST"])
 def nuevo_modelo(fabricante_id):
+    conn = get_connection()
+    cur = conn.cursor()
+
+    # Obtener fabricante
+    cur.execute("SELECT * FROM fabricantes WHERE id = %s", (fabricante_id,))
+    fabricante = cur.fetchone()
+
     if request.method == "POST":
         nombre = request.form["nombre"]
         rol = request.form["rol"]
@@ -118,29 +121,31 @@ def nuevo_modelo(fabricante_id):
         descripcion = request.form["descripcion"]
         imagen_url = request.form["imagen_url"]
 
-        conn = get_connection()
-        cur = conn.cursor()
         cur.execute("""
             INSERT INTO modelos (fabricante_id, nombre, rol, generacion, anio, descripcion, imagen_url)
             VALUES (%s, %s, %s, %s, %s, %s, %s)
         """, (fabricante_id, nombre, rol, generacion, anio, descripcion, imagen_url))
+
         conn.commit()
         cur.close()
         conn.close()
 
         return redirect(url_for("ver_fabricante", fabricante_id=fabricante_id))
 
-    return render_template("nuevo_modelo.html", fabricante_id=fabricante_id)
+    cur.close()
+    conn.close()
+
+    return render_template("nuevo_modelo.html", fabricante=fabricante)
 
 
-# VER FICHA TÉCNICA DE UN MODELO
+# VER MODELO
 @app.route("/modelo/<int:modelo_id>")
 def ver_modelo(modelo_id):
     conn = get_connection()
     cur = conn.cursor()
 
     cur.execute("""
-        SELECT m.id, m.nombre, m.rol, m.generacion, m.anio, m.informacion, m.imagen_url,
+        SELECT m.id, m.nombre, m.rol, m.generacion, m.anio, m.descripcion, m.imagen_url,
                f.nombre, f.pais
         FROM modelos m
         JOIN fabricantes f ON m.fabricante_id = f.id
@@ -154,6 +159,60 @@ def ver_modelo(modelo_id):
     return render_template("modelo.html", modelo=modelo)
 
 
-# Render necesita esto para correr la app
+# BORRAR MODELO
+@app.route("/modelo/borrar/<int:modelo_id>")
+def borrar_modelo(modelo_id):
+    conn = get_connection()
+    cur = conn.cursor()
+
+    cur.execute("SELECT fabricante_id FROM modelos WHERE id = %s", (modelo_id,))
+    fabricante_id = cur.fetchone()[0]
+
+    cur.execute("DELETE FROM modelos WHERE id = %s", (modelo_id,))
+    conn.commit()
+
+    cur.close()
+    conn.close()
+
+    return redirect(url_for("ver_fabricante", fabricante_id=fabricante_id))
+
+
+# EDITAR MODELO
+@app.route("/modelo/editar/<int:modelo_id>", methods=["GET", "POST"])
+def editar_modelo(modelo_id):
+    conn = get_connection()
+    cur = conn.cursor()
+
+    cur.execute("SELECT * FROM modelos WHERE id = %s", (modelo_id,))
+    modelo = cur.fetchone()
+
+    if request.method == "POST":
+        nombre = request.form["nombre"]
+        rol = request.form["rol"]
+        generacion = request.form["generacion"]
+        anio = request.form["anio"]
+        descripcion = request.form["descripcion"]
+        imagen_url = request.form["imagen_url"]
+
+        cur.execute("""
+            UPDATE modelos
+            SET nombre=%s, rol=%s, generacion=%s, anio=%s, descripcion=%s, imagen_url=%s
+            WHERE id=%s
+        """, (nombre, rol, generacion, anio, descripcion, imagen_url, modelo_id))
+
+        conn.commit()
+        cur.close()
+        conn.close()
+
+        return redirect(url_for("ver_modelo", modelo_id=modelo_id))
+
+    cur.close()
+    conn.close()
+
+    return render_template("editar_modelo.html", modelo=modelo)
+
+
+# Render necesita esto
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=10000)
+
