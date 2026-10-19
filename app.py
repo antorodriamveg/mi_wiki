@@ -211,8 +211,75 @@ def editar_modelo(modelo_id):
 
     return render_template("editar_modelo.html", modelo=modelo)
 
+@app.route("/fabricante/editar/<int:fabricante_id>", methods=["GET", "POST"])
+def editar_fabricante(fabricante_id):
+    conn = get_connection()
+    cur = conn.cursor()
 
-# Render necesita esto
+    cur.execute("SELECT id, nombre, pais FROM fabricantes WHERE id = %s", (fabricante_id,))
+    fabricante = cur.fetchone()
+
+    if request.method == "POST":
+        nombre = request.form["nombre"]
+        pais = request.form["pais"]
+
+        cur.execute("""
+            UPDATE fabricantes
+            SET nombre = %s, pais = %s
+            WHERE id = %s
+        """, (nombre, pais, fabricante_id))
+
+        conn.commit()
+        cur.close()
+        conn.close()
+
+        return redirect(url_for("ver_fabricante", fabricante_id=fabricante_id))
+
+    cur.close()
+    conn.close()
+
+    return render_template("editar_fabricante.html", fabricante=fabricante)
+
+
+@app.route("/modelo/editar/<int:modelo_id>", methods=["GET", "POST"])
+def editar_modelo(modelo_id):
+    conn = get_connection()
+    cur = conn.cursor()
+
+    cur.execute("""
+        SELECT id, fabricante_id, nombre, rol, generacion, anio, descripcion, imagen_url
+        FROM modelos
+        WHERE id = %s
+    """, (modelo_id,))
+    modelo = cur.fetchone()
+
+    if request.method == "POST":
+        nombre = request.form["nombre"]
+        rol = request.form["rol"]
+        generacion = request.form["generacion"]
+        anio = request.form["anio"]
+        descripcion = request.form["descripcion"]
+        imagen_url = request.form["imagen_url"]
+
+        cur.execute("""
+            UPDATE modelos
+            SET nombre=%s, rol=%s, generacion=%s, anio=%s, descripcion=%s, imagen_url=%s
+            WHERE id=%s
+        """, (nombre, rol, generacion, anio, descripcion, imagen_url, modelo_id))
+
+        conn.commit()
+        cur.close()
+        conn.close()
+
+        return redirect(url_for("ver_modelo", modelo_id=modelo_id))
+
+    cur.close()
+    conn.close()
+
+    return render_template("editar_modelo.html", modelo=modelo)
+
+
+# Render necesita esto para correr la app
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=10000)
 
