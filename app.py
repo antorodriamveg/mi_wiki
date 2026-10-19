@@ -1,4 +1,3 @@
-
 from flask import Flask, render_template, request, redirect, url_for
 import psycopg2
 
@@ -109,7 +108,6 @@ def nuevo_modelo(fabricante_id):
     conn = get_connection()
     cur = conn.cursor()
 
-    # Obtener fabricante
     cur.execute("SELECT * FROM fabricantes WHERE id = %s", (fabricante_id,))
     fabricante = cur.fetchone()
 
@@ -177,71 +175,7 @@ def borrar_modelo(modelo_id):
     return redirect(url_for("ver_fabricante", fabricante_id=fabricante_id))
 
 
-# EDITAR MODELO
-@app.route("/modelo/editar/<int:modelo_id>", methods=["GET", "POST"])
-def editar_modelo_view(modelo_id):
-    conn = get_connection()
-    cur = conn.cursor()
-
-    cur.execute("SELECT * FROM modelos WHERE id = %s", (modelo_id,))
-    modelo = cur.fetchone()
-
-    if request.method == "POST":
-        nombre = request.form["nombre"]
-        rol = request.form["rol"]
-        generacion = request.form["generacion"]
-        anio = request.form["anio"]
-        descripcion = request.form["descripcion"]
-        imagen_url = request.form["imagen_url"]
-
-        cur.execute("""
-            UPDATE modelos
-            SET nombre=%s, rol=%s, generacion=%s, anio=%s, descripcion=%s, imagen_url=%s
-            WHERE id=%s
-        """, (nombre, rol, generacion, anio, descripcion, imagen_url, modelo_id))
-
-        conn.commit()
-        cur.close()
-        conn.close()
-
-        return redirect(url_for("ver_modelo", modelo_id=modelo_id))
-
-    cur.close()
-    conn.close()
-
-    return render_template("editar_modelo.html", modelo=modelo)
-
-
-@app.route("/fabricante/editar/<int:fabricante_id>", methods=["GET", "POST"])
-def editar_fabricante(fabricante_id):
-    conn = get_connection()
-    cur = conn.cursor()
-
-    cur.execute("SELECT id, nombre, pais FROM fabricantes WHERE id = %s", (fabricante_id,))
-    fabricante = cur.fetchone()
-
-    if request.method == "POST":
-        nombre = request.form["nombre"]
-        pais = request.form["pais"]
-
-        cur.execute("""
-            UPDATE fabricantes
-            SET nombre = %s, pais = %s
-            WHERE id = %s
-        """, (nombre, pais, fabricante_id))
-
-        conn.commit()
-        cur.close()
-        conn.close()
-
-        return redirect(url_for("ver_fabricante", fabricante_id=fabricante_id))
-
-    cur.close()
-    conn.close()
-
-    return render_template("editar_fabricante.html", fabricante=fabricante)
-
-
+# EDITAR MODELO (ÚNICA FUNCIÓN, SIN DUPLICADOS)
 @app.route("/modelo/editar/<int:modelo_id>", methods=["GET", "POST"])
 def editar_modelo(modelo_id):
     conn = get_connection()
@@ -280,7 +214,60 @@ def editar_modelo(modelo_id):
     return render_template("editar_modelo.html", modelo=modelo)
 
 
+# BORRAR FABRICANTE (CON PROTECCIÓN)
+@app.route("/fabricante/borrar/<int:fabricante_id>")
+def borrar_fabricante(fabricante_id):
+    conn = get_connection()
+    cur = conn.cursor()
+
+    cur.execute("SELECT COUNT(*) FROM modelos WHERE fabricante_id = %s", (fabricante_id,))
+    cantidad_modelos = cur.fetchone()[0]
+
+    if cantidad_modelos > 0:
+        cur.close()
+        conn.close()
+        return "❌ No se puede borrar este fabricante porque tiene modelos asociados."
+
+    cur.execute("DELETE FROM fabricantes WHERE id = %s", (fabricante_id,))
+    conn.commit()
+
+    cur.close()
+    conn.close()
+
+    return redirect(url_for("index"))
+
+
+# EDITAR FABRICANTE
+@app.route("/fabricante/editar/<int:fabricante_id>", methods=["GET", "POST"])
+def editar_fabricante(fabricante_id):
+    conn = get_connection()
+    cur = conn.cursor()
+
+    cur.execute("SELECT id, nombre, pais FROM fabricantes WHERE id = %s", (fabricante_id,))
+    fabricante = cur.fetchone()
+
+    if request.method == "POST":
+        nombre = request.form["nombre"]
+        pais = request.form["pais"]
+
+        cur.execute("""
+            UPDATE fabricantes
+            SET nombre = %s, pais = %s
+            WHERE id = %s
+        """, (nombre, pais, fabricante_id))
+
+        conn.commit()
+        cur.close()
+        conn.close()
+
+        return redirect(url_for("ver_fabricante", fabricante_id=fabricante_id))
+
+    cur.close()
+    conn.close()
+
+    return render_template("editar_fabricante.html", fabricante=fabricante)
+
+
 # Render necesita esto para correr la app
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=10000)
-
