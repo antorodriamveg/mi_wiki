@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Nuevo modelo</title>
+</head>
+<body>
+    <h1>Agregar modelo para {{ fabricante[1] }}</h1>
+
+    <form action="/modelo/crear/{{ fabricante[0] }}" method="POST">
+        <label>Nombre del modelo:</label>
+        <input type="text" name="nombre" required><br>
+
+        <label>Rol:</label>
+        <input type="text" name="rol" required><br>
+
+        <label>País:</label>
+        <input type="text" name="pais" required><br>
+
+        <label>Año:</label>
+        <input type="number" name="anio" required><br>
+
+        <label>Descripción:</label>
+        <textarea name="descripcion" required></textarea><br>
+
+        <label>Imagen (URL):</label>
+        <input type="text" name="imagen"><br>
+
+        <button type="submit">Guardar</button>
+    </form>
+</body>
+</html>
