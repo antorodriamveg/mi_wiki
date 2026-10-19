@@ -179,7 +179,7 @@ def borrar_modelo(modelo_id):
 
 # EDITAR MODELO
 @app.route("/modelo/editar/<int:modelo_id>", methods=["GET", "POST"])
-def editar_modelo(modelo_id):
+def editar_modelo_view(modelo_id):
     conn = get_connection()
     cur = conn.cursor()
 
@@ -210,6 +210,7 @@ def editar_modelo(modelo_id):
     conn.close()
 
     return render_template("editar_modelo.html", modelo=modelo)
+
 
 @app.route("/fabricante/editar/<int:fabricante_id>", methods=["GET", "POST"])
 def editar_fabricante(fabricante_id):
