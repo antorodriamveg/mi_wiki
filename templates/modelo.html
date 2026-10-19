@@ -6,14 +6,16 @@
 </head>
 <body>
 
+<button class="modo-oscuro-btn" onclick="toggleDarkMode()">Modo oscuro</button>
+
 <header>
     <h1>{{ modelo[1] }}</h1>
 </header>
 
 <div class="container">
 
-    {% if modelo[5] %}
-        <img src="{{ modelo[5] }}" class="imagen-modelo">
+    {% if modelo[6] %}
+        <img src="{{ modelo[6] }}" class="imagen-modelo">
     {% endif %}
 
     <h2>Ficha técnica</h2>
@@ -26,10 +28,16 @@
     <p>{{ modelo[5] }}</p>
 
     <h3>Fabricante</h3>
-    <p>{{ modelo[6] }} ({{ modelo[7] }})</p>
+    <p>{{ modelo[7] }} ({{ modelo[8] }})</p>
 
     <a href="/fabricante/{{ modelo[0] }}" class="boton-secundario">Volver</a>
 </div>
+
+<script>
+function toggleDarkMode() {
+    document.body.classList.toggle("dark");
+}
+</script>
 
 </body>
 </html>

@@ -6,6 +6,8 @@
 </head>
 <body>
 
+<button class="modo-oscuro-btn" onclick="toggleDarkMode()">Modo oscuro</button>
+
 <header>
     <h1>Wiki de Ala Giratoria Militar</h1>
 </header>
@@ -26,5 +28,12 @@
     <a href="/fabricante/nuevo" class="boton">Agregar fabricante</a>
 </div>
 
+<script>
+function toggleDarkMode() {
+    document.body.classList.toggle("dark");
+}
+</script>
+
 </body>
 </html>
+
