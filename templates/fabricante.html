@@ -39,13 +39,13 @@
         {% for modelo in modelos %}
             <li>
 
-                {% if session.get("admin") %}
+                
 
                 <a href="/modelo/{{ modelo[0] }}">
                     <strong>{{ modelo[1] }}</strong>
                 </a>
 
-                {% endif %}
+                
 
                 — {{ modelo[3] }}ª generación ({{ modelo[2] }})
 
@@ -59,11 +59,15 @@
 
     {% endif %}
 
+    {% if session.get("admin") %}
+
     <br>
 
     <a href="/modelo/nuevo/{{ fabricante[0] }}" class="boton">
          Agregar modelo
     </a>
+
+    {% endif %}
 
     <br><br>
 
