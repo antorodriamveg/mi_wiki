@@ -224,9 +224,13 @@ def borrar_fabricante(fabricante_id):
     cantidad_modelos = cur.fetchone()[0]
 
     if cantidad_modelos > 0:
-        cur.close()
-        conn.close()
-        return "❌ No se puede borrar este fabricante porque tiene modelos asociados."
+       cur.close()
+       conn.close()
+
+       return render_template(
+           "error_borrar_fabricante.html",
+           fabricante_id=fabricante_id
+       )
 
     cur.execute("DELETE FROM fabricantes WHERE id = %s", (fabricante_id,))
     conn.commit()

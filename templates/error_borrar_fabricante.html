@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>No se puede borrar el fabricante</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<header>
+    <h1>HELIPEDIA</h1>
+</header>
+
+<div class="container">
+
+    <h2> No se puede borrar este fabricante</h2>
+
+    <p>
+        Este fabricante todavía tiene modelos asociados.
+    </p>
+
+    <p>
+        Primero debes eliminar o trasladar esos modelos antes de borrar el fabricante.
+    </p>
+
+    <br>
+
+    <a href="/fabricante/{{ fabricante_id }}" class="boton">
+        ← Volver al fabricante
+    </a>
+
+    <a href="/" class="boton-secundario">
+        Inicio
+    </a>
+
+</div>
+
+</body>
+</html>
