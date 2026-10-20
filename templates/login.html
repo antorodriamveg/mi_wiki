@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Acceso Administrador</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<header>
+    <h1>HELIPEDIA</h1>
+</header>
+
+<div class="container">
+
+    <h2>Acceso de administrador</h2>
+
+    {% if error %}
+        <p style="color:red;">{{ error }}</p>
+    {% endif %}
+
+    <form method="POST">
+
+        <label>Contraseña:</label>
+
+        <input
+            type="password"
+            name="password"
+            required>
+
+        <br><br>
+
+        <button
+            type="submit"
+            class="boton">
+
+            Iniciar sesión
+
+        </button>
+
+    </form>
+
+    <br>
+
+    <a href="/" class="boton-secundario">
+        Volver
+    </a>
+
+</div>
+
+</body>
+</html>

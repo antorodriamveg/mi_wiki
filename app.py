@@ -1,7 +1,11 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, session
 import psycopg2
 
 app = Flask(__name__)
+
+app.secret_key = "HELIPEDIA_SECTRETA_2026"
+
+ADMIN_PASSWORD = "Mi24Hind"
 
 # CONEXIÓN A POSTGRESQL EN RENDER
 def get_connection():
@@ -47,6 +51,37 @@ def crear_tablas():
 
 crear_tablas()
 
+# LOGIN ADMINISTRADOR
+@app.route("/admin/login", methods=["GET", "POST"])
+def login():
+
+    error = None
+
+    if request.method == "POST":
+
+        password = request.form["password"]
+
+        if password == ADMIN_PASSWORD:
+
+            session["admin"] = True
+
+            return redirect(url_for("index"))
+
+        error = "Contraseña incorrecta"
+
+    return render_template(
+        "login.html",
+        error=error
+    )
+
+
+# LOGOUT ADMINISTRADOR
+@app.route("/admin/logout")
+def logout():
+
+    session.clear()
+
+    return redirect(url_for("index"))
 
 # PÁGINA PRINCIPAL
 @app.route("/")
