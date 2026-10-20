@@ -4,29 +4,63 @@
     <title>{{ fabricante[1] }}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
+
 <body>
 
 <header>
     <h1>{{ fabricante[1] }} ({{ fabricante[2] }})</h1>
 </header>
 
-<a href="/fabricante/editar/{{ fabricante[0] }}" class="boton">Editar fabricante</a>
 <div class="container">
+
+    <a href="/fabricante/editar/{{ fabricante[0] }}" class="boton">
+         Editar fabricante
+    </a>
+
+    <a href="/fabricante/borrar/{{ fabricante[0] }}"
+       class="boton-secundario"
+       onclick="return confirm('¿Seguro que deseas borrar este fabricante?');">
+         Borrar fabricante
+    </a>
+
+    <hr>
+
     <h2>Modelos</h2>
+
+    {% if modelos %}
 
     <ul class="lista">
         {% for modelo in modelos %}
             <li>
+
                 <a href="/modelo/{{ modelo[0] }}">
-                    {{ modelo[1] }} — {{ modelo[3] }}ª generación ({{ modelo[2] }})
+                    <strong>{{ modelo[1] }}</strong>
                 </a>
+
+                — {{ modelo[3] }}ª generación ({{ modelo[2] }})
+
             </li>
         {% endfor %}
     </ul>
 
-    <a href="/modelo/nuevo/{{ fabricante[0] }}" class="boton">Agregar modelo</a>
+    {% else %}
+
+    <p>No hay modelos cargados todavía.</p>
+
+    {% endif %}
+
+    <br>
+
+    <a href="/modelo/nuevo/{{ fabricante[0] }}" class="boton">
+         Agregar modelo
+    </a>
+
     <br><br>
-    <a href="/" class="boton-secundario">Volver</a>
+
+    <a href="/" class="boton-secundario">
+        ← Volver al inicio
+    </a>
+
 </div>
 
 </body>
