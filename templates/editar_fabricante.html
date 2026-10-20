@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Editar Fabricante</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<header>
+    <h1>Editar Fabricante</h1>
+</header>
+
+<div class="container">
+
+    <form method="POST">
+
+        <label>Nombre:</label>
+        <input type="text"
+               name="nombre"
+               value="{{ fabricante[1] }}"
+               required>
+
+        <br><br>
+
+        <label>País:</label>
+        <input type="text"
+               name="pais"
+               value="{{ fabricante[2] }}"
+               required>
+
+        <br><br>
+
+        <button type="submit" class="boton">
+            Guardar cambios
+        </button>
+
+    </form>
+
+    <br>
+
+    <a href="/fabricante/{{ fabricante[0] }}"
+       class="boton-secundario">
+       Volver
+    </a>
+
+</div>
+
+</body>
+</html>
