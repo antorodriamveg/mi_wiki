@@ -29,9 +29,13 @@
 
             <br>
 
+            {% if session.get("admin") %}
+
             <a href="/fabricante/editar/{{ fab[0] }}" class="boton">
                  Editar fabricante
             </a>
+
+            {% endif %}
 
         </li>
 
@@ -46,12 +50,35 @@
 
     {% endif %}
 
+    {% if session.get("admin") %}
+
     <a href="/fabricante/nuevo" class="boton">
          Agregar fabricante
     </a>
+
+    {% endif %}
+
+<br><br>
+
+{% if session.get("admin") %}
+
+<a href="/admin/logout" class="boton-secundario">
+     Cerrar sesión
+</a>
+
+{% else %}
+
+<a href="/admin/login" class="boton-secundario">
+     Administrador
+</a>
+
+{% endif %}
 
 </div>
 
 </body>
 </html>
+
+
+
 
