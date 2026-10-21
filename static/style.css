@@ -122,3 +122,11 @@ input, textarea {
     margin: auto;
     border-radius: 10px;
 }
+.texto-modelo {
+    white-space: pre-wrap;
+    font-family: inherit;
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+
+
