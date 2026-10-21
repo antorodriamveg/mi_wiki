@@ -1,137 +1,292 @@
-/* MODO CLARO */
+
+/* =========================
+   HELIPEDIA 2.0
+   ========================= */
+
 :root {
-    --bg: #f4f6f9;
-    --card-bg: #ffffff;
-    --text: #222;
-    --label: #555;
-    --border: #ccc;
-    --button-bg: #2e3b4e; /* usa tu color original */
-    --button-hover: #1f2a38;
+    --bg: #e7ebe4;
+    --card-bg: #fcfcfa;
+    --text: #1d1d1d;
+    --label: #445044;
+    --border: #c8c8c8;
+
+    --button-bg: #556b2f;
+    --button-hover: #3f5122;
+
+    --secondary-bg: #5f5f5f;
+    --secondary-hover: #4a4a4a;
 }
 
-/* MODO OSCURO */
+/* =========================
+   MODO OSCURO
+   ========================= */
+
 body.dark {
-    --bg: #1e1e1e;
-    --card-bg: #2a2a2a;
-    --text: #eaeaea;
-    --label: #cfcfcf;
+    --bg: #202320;
+    --card-bg: #2c2f2c;
+    --text: #ececec;
+    --label: #c9c9c9;
     --border: #555;
-    --button-bg: #0099ff;
-    --button-hover: #007acc;
+
+    --button-bg: #728c45;
+    --button-hover: #5d7336;
+
+    --secondary-bg: #6b6b6b;
+    --secondary-hover: #555;
 }
 
-/* ESTILO GLOBAL */
+/* =========================
+   GLOBAL
+   ========================= */
+
 body {
+    font-family: "Segoe UI", Arial, sans-serif;
+
     background: var(--bg);
+
     color: var(--text);
-    transition: background 0.3s, color 0.3s;
-}
 
-.container {
-    background: var(--card-bg);
-    transition: background 0.3s;
-}
-
-button, .btn, .boton {
-    background: var(--button-bg);
-    transition: background 0.3s;
-}
-
-button:hover, .btn:hover, .boton:hover {
-    background: var(--button-hover);
-}
-
-.modo-oscuro-btn {
-    position: fixed;
-    top: 15px;
-    right: 15px;
-    background: var(--button-bg);
-    padding: 8px 14px;
-    border-radius: 6px;
-    cursor: pointer;
-    color: white;
-    border: none;
-}
-
-body {
-    font-family: Arial, sans-serif;
-    background: #f2f2f2;
     margin: 0;
+
     padding: 0;
+
+    transition: all .3s ease;
 }
 
 header {
-    background: #2e3b4e;
+    background: linear-gradient(
+        180deg,
+        #394734,
+        #2c3528
+    );
+
     color: white;
-    padding: 20px;
+
     text-align: center;
+
+    padding: 25px;
+
+    border-bottom: 4px solid #78866b;
+
+    box-shadow: 0 4px 12px rgba(0,0,0,.25);
 }
+
+header h1 {
+    margin: 0;
+
+    font-size: 2.5rem;
+
+    letter-spacing: 2px;
+}
+
+header p {
+    margin-top: 8px;
+
+    opacity: .9;
+}
+
+/* =========================
+   CONTENEDORES
+   ========================= */
 
 .container {
-    width: 80%;
-    margin: auto;
-    margin-top: 30px;
-    background: white;
-    padding: 20px;
+    width: 85%;
+
+    max-width: 1200px;
+
+    margin: 30px auto;
+
+    background: var(--card-bg);
+
+    padding: 25px;
+
     border-radius: 10px;
+
+    border-left: 6px solid #6d7e55;
+
+    box-shadow: 0 4px 15px rgba(0,0,0,.12);
+
+    transition: all .3s ease;
 }
 
-.lista li {
-    margin: 10px 0;
+/* =========================
+   TIPOGRAFÍA
+   ========================= */
+
+h1,
+h2,
+h3 {
+    color: #263526;
 }
+
+body.dark h1,
+body.dark h2,
+body.dark h3 {
+    color: #d7e2d7;
+}
+
+h2 {
+    border-bottom: 2px solid #b5b5b5;
+
+    padding-bottom: 8px;
+}
+
+/* =========================
+   ENLACES
+   ========================= */
 
 a {
-    color: #2e3b4e;
+    color: #38492d;
+
     text-decoration: none;
+
+    transition: .2s;
 }
 
 a:hover {
+    color: #5f7535;
+
     text-decoration: underline;
 }
 
+/* =========================
+   LISTAS
+   ========================= */
+
+.lista li {
+    margin: 14px 0;
+}
+
+/* =========================
+   BOTONES
+   ========================= */
+
 .boton {
     display: inline-block;
-    background: #2e3b4e;
-    color: white;
-    padding: 10px 15px;
+
+    background: var(--button-bg);
+
+    color: white !important;
+
+    padding: 10px 16px;
+
     border-radius: 6px;
-    margin-top: 20px;
+
+    margin-top: 15px;
+
+    font-weight: bold;
+}
+
+.boton:hover {
+    background: var(--button-hover);
+
+    text-decoration: none;
 }
 
 .boton-secundario {
     display: inline-block;
-    background: #777;
-    color: white;
-    padding: 10px 15px;
+
+    background: var(--secondary-bg);
+
+    color: white !important;
+
+    padding: 10px 16px;
+
     border-radius: 6px;
-    margin-top: 20px;
+
+    margin-top: 15px;
 }
 
-input, textarea {
-    width: 100%;
-    padding: 10px;
-    margin-top: 10px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
+.boton-secundario:hover {
+    background: var(--secondary-hover);
+
+    text-decoration: none;
 }
+
+/* =========================
+   FORMULARIOS
+   ========================= */
+
+input,
+textarea {
+    width: 100%;
+
+    padding: 12px;
+
+    margin-top: 10px;
+
+    margin-bottom: 15px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 6px;
+
+    background: white;
+}
+
+body.dark input,
+body.dark textarea {
+    background: #383838;
+
+    color: white;
+}
+
+/* =========================
+   IMÁGENES
+   ========================= */
 
 .imagen-modelo {
     width: 100%;
-    max-width: 600px;
+
+    max-width: 700px;
+
     display: block;
-    margin: auto;
+
+    margin: 25px auto;
+
     border-radius: 10px;
+
+    border: 3px solid #8e8e8e;
+
+    box-shadow: 0 6px 15px rgba(0,0,0,.25);
 }
-.texto-modelo {
-    white-space: pre-wrap;
-    font-family: inherit;
-    font-size: 1.1rem;
-    line-height: 1.6;
-}
+
+/* =========================
+   TEXTO DE MODELOS
+   ========================= */
+
 .descripcion-modelo {
     white-space: pre-line;
-    line-height: 1.7;
+
+    line-height: 1.8;
+
     font-size: 18px;
+
     text-align: justify;
 }
+
+/* =========================
+   BOTÓN MODO OSCURO
+   ========================= */
+
+.modo-oscuro-btn {
+    position: fixed;
+
+    top: 15px;
+
+    right: 15px;
+
+    background: var(--button-bg);
+
+    color: white;
+
+    border: none;
+
+    padding: 8px 14px;
+
+    border-radius: 6px;
+
+    cursor: pointer;
+
+    z-index: 1000;
 
