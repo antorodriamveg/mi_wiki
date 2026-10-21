@@ -16,7 +16,6 @@ def get_connection():
         password="oHeaZLev04jymCBXnBSzY2bVdUVrh7nM",
         port="5432"
     )
-
 # CREAR TABLAS SI NO EXISTEN
 def crear_tablas():
     conn = get_connection()
@@ -41,13 +40,41 @@ def crear_tablas():
             generacion INTEGER,
             anio INTEGER,
             descripcion TEXT,
-            imagen_url TEXT
+            imagen_url TEXT,
+            imagen_url_2 TEXT,
+            imagen_url_3 TEXT,
+            imagen_url_4 TEXT
         );
     """)
+
+    try:
+        cur.execute("""
+            ALTER TABLE modelos
+            ADD COLUMN imagen_url_2 TEXT
+        """)
+    except:
+        pass
+
+    try:
+        cur.execute("""
+            ALTER TABLE modelos
+            ADD COLUMN imagen_url_3 TEXT
+        """)
+    except:
+        pass
+
+    try:
+        cur.execute("""
+            ALTER TABLE modelos
+            ADD COLUMN imagen_url_4 TEXT
+        """)
+    except:
+        pass
 
     conn.commit()
     cur.close()
     conn.close()
+
 
 crear_tablas()
 
