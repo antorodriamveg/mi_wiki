@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Resultados de búsqueda</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<header>
+    <h1>Resultados de búsqueda</h1>
+</header>
+
+<div class="container">
+
+    <h2>Búsqueda: "{{ termino }}"</h2>
+
+    <h3>Fabricantes</h3>
+
+    {% if fabricantes %}
+
+    <ul class="lista">
+
+        {% for fabricante in fabricantes %}
+
+        <li>
+            <a href="/fabricante/{{ fabricante[0] }}">
+                {{ fabricante[1] }} ({{ fabricante[2] }})
+            </a>
+        </li>
+
+        {% endfor %}
+
+    </ul>
+
+    {% else %}
+
+    <p>No se encontraron fabricantes.</p>
+
+    {% endif %}
+
+    <hr>
+
+    <h3>Modelos</h3>
+
+    {% if modelos %}
+
+    <ul class="lista">
+
+        {% for modelo in modelos %}
+
+        <li>
+            <a href="/modelo/{{ modelo[0] }}">
+                {{ modelo[1] }}
+            </a>
+        </li>
+
+        {% endfor %}
+
+    </ul>
+
+    {% else %}
+
+    <p>No se encontraron modelos.</p>
+
+    {% endif %}
+
+    <br>
+
+    <a href="/" class="boton-secundario">
+        ← Volver al inicio
+    </a>
+
+</div>
+
+</body>
+</html>
