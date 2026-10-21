@@ -306,22 +306,6 @@ def editar_fabricante(fabricante_id):
 
     return render_template("editar_fabricante.html", fabricante=fabricante)
 
-@app.route("/")
-def index():
-    conn = get_connection()
-    cur = conn.cursor()
-
-    cur.execute("SELECT id, nombre, pais FROM fabricantes ORDER BY nombre ASC")
-    fabricantes = cur.fetchall()
-
-    cur.close()
-    conn.close()
-
-    return render_template(
-        "fabricantes.html",
-        fabricantes=fabricantes
-    )
-
 
 # BUSCADOR
 @app.route("/buscar")
