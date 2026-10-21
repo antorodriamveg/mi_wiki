@@ -16,6 +16,25 @@
 <div class="container">
 
     <h2>Fabricantes</h2>
+    
+    <form action="/buscar" method="GET">
+
+    <input
+        type="text"
+        name="q"
+        placeholder="Buscar fabricante o modelo">
+
+    <button
+        type="submit"
+        class="boton">
+
+         Buscar
+
+    </button>
+
+</form>
+
+<br>    
 
     {% if fabricantes %}
 

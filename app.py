@@ -306,7 +306,61 @@ def editar_fabricante(fabricante_id):
 
     return render_template("editar_fabricante.html", fabricante=fabricante)
 
+@app.route("/")
+def index():
+    conn = get_connection()
+    cur = conn.cursor()
+
+    cur.execute("SELECT id, nombre, pais FROM fabricantes ORDER BY nombre ASC")
+    fabricantes = cur.fetchall()
+
+    cur.close()
+    conn.close()
+
+    return render_template(
+        "fabricantes.html",
+        fabricantes=fabricantes
+    )
+
+
+# BUSCADOR
+@app.route("/buscar")
+def buscar():
+
+    termino = request.args.get("q", "")
+
+    conn = get_connection()
+    cur = conn.cursor()
+
+    cur.execute("""
+        SELECT id, nombre, pais
+        FROM fabricantes
+        WHERE nombre ILIKE %s
+        ORDER BY nombre
+    """, (f"%{termino}%",))
+
+    fabricantes = cur.fetchall()
+
+    cur.execute("""
+        SELECT id, nombre
+        FROM modelos
+        WHERE nombre ILIKE %s
+        ORDER BY nombre
+    """, (f"%{termino}%",))
+
+    modelos = cur.fetchall()
+
+    cur.close()
+    conn.close()
+
+    return render_template(
+        "buscar.html",
+        termino=termino,
+        fabricantes=fabricantes,
+        modelos=modelos
+    )
 
 # Render necesita esto para correr la app
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=10000)
+    
