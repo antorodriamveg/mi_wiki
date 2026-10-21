@@ -289,4 +289,19 @@ body.dark textarea {
     cursor: pointer;
 
     z-index: 1000;
+}
 
+.galeria {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.imagen-galeria {
+    width: 280px;
+    border-radius: 8px;
+    border: 2px solid #808080;
+    box-shadow: 0 3px 8px rgba(0,0,0,.2);
+}

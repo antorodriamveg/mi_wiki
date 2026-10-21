@@ -179,12 +179,41 @@ def nuevo_modelo(fabricante_id):
         generacion = request.form["generacion"]
         anio = request.form["anio"]
         descripcion = request.form["descripcion"]
+
         imagen_url = request.form["imagen_url"]
+        imagen_url_2 = request.form["imagen_url_2"]
+        imagen_url_3 = request.form["imagen_url_3"]
+        imagen_url_4 = request.form["imagen_url_4"]
 
         cur.execute("""
-            INSERT INTO modelos (fabricante_id, nombre, rol, generacion, anio, descripcion, imagen_url)
-            VALUES (%s, %s, %s, %s, %s, %s, %s)
-        """, (fabricante_id, nombre, rol, generacion, anio, descripcion, imagen_url))
+            INSERT INTO modelos (
+                fabricante_id,
+                nombre,
+                rol,
+                generacion,
+                anio,
+                descripcion,
+                imagen_url,
+                imagen_url_2,
+                imagen_url_3,
+                imagen_url_4
+            )
+            VALUES (
+                %s, %s, %s, %s, %s,
+                %s, %s, %s, %s, %s
+            )
+         """, (
+            fabricante_id,
+            nombre,
+            rol,
+            generacion,
+            anio,
+            descripcion,
+            imagen_url,
+            imagen_url_2,
+            imagen_url_3,
+            imagen_url_4
+         ))
 
         conn.commit()
         cur.close()
@@ -205,12 +234,24 @@ def ver_modelo(modelo_id):
     cur = conn.cursor()
 
     cur.execute("""
-        SELECT m.id, m.nombre, m.rol, m.generacion, m.anio, m.descripcion, m.imagen_url,
-               f.nombre, f.pais
+        SELECT
+            m.id,
+            m.nombre,
+            m.rol,
+            m.generacion,
+            m.anio,
+            m.descripcion,
+            m.imagen_url,
+            m.imagen_url_2,
+            m.imagen_url_3,
+            m.imagen_url_4,
+            f.nombre,
+            f.pais
         FROM modelos m
         JOIN fabricantes f ON m.fabricante_id = f.id
         WHERE m.id = %s
     """, (modelo_id,))
+    
     modelo = cur.fetchone()
 
     cur.close()
@@ -244,10 +285,20 @@ def editar_modelo(modelo_id):
     cur = conn.cursor()
 
     cur.execute("""
-        SELECT id, fabricante_id, nombre, rol, generacion, anio, descripcion, imagen_url
-        FROM modelos
-        WHERE id = %s
-    """, (modelo_id,))
+    SELECT
+        id,
+        fabricante_id,
+        nombre,
+        rol,
+        generacion,
+        anio,
+        descripcion,
+        imagen_url,
+        imagen_url_2,
+        imagen_url_3,
+        imagen_url_4
+     FROM modelos
+     WHERE id = %s    """, (modelo_id,))
     modelo = cur.fetchone()
 
     if request.method == "POST":
@@ -256,13 +307,37 @@ def editar_modelo(modelo_id):
         generacion = request.form["generacion"]
         anio = request.form["anio"]
         descripcion = request.form["descripcion"]
+
         imagen_url = request.form["imagen_url"]
+        imagen_url_2 = request.form["imagen_url_2"]
+        imagen_url_3 = request.form["imagen_url_3"]
+        imagen_url_4 = request.form["imagen_url_4"]
 
         cur.execute("""
             UPDATE modelos
-            SET nombre=%s, rol=%s, generacion=%s, anio=%s, descripcion=%s, imagen_url=%s
+            SET
+                nombre=%s,
+                rol=%s,
+                generacion=%s,
+                anio=%s,
+                descripcion=%s,
+                imagen_url=%s,
+                imagen_url_2=%s,
+                imagen_url_3=%s,
+                imagen_url_4=%s
             WHERE id=%s
-        """, (nombre, rol, generacion, anio, descripcion, imagen_url, modelo_id))
+        """,(
+            nombre,
+            rol,
+            generacion,
+            anio,
+            descripcion,
+            imagen_url,
+            imagen_url_2,
+            imagen_url_3,
+            imagen_url_4,
+            modelo_id
+        )) 
 
         conn.commit()
         cur.close()

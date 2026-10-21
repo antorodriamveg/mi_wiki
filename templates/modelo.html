@@ -29,8 +29,28 @@
     {{ modelo[5] }}
     </div>
     
+    <hr>
+
+    <h3>Galería</h3>
+
+    <div class="galeria">
+
+        {% if modelo[7] %}
+            <img src="{{ modelo[7] }}" class="imagen-galeria">
+        {% endif %}
+
+        {% if modelo[8] %}
+             <img src="{{ modelo[8] }}" class="imagen-galeria">
+        {% endif %}
+
+        {% if modelo[9] %}
+             <img src="{{ modelo[9] }}" class="imagen-galeria">
+        {% endif %}
+
+    </div>
+
     <h3>Fabricante</h3>
-    <p>{{ modelo[7] }} ({{ modelo[8] }})</p>
+    <p>{{ modelo[10] }} ({{ modelo[11] }})</p>
 
     <hr>
 
